@@ -3,7 +3,8 @@
 name: Create Windows Installer (MSI)
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [main]
 
 jobs:
   build-windows:
@@ -33,7 +34,7 @@ jobs:
           --input "bybo-app/target/" `
           --main-jar "bybo-app-1.0.0-SNAPSHOT.jar" `
           --main-class "br.com.phkaiser.bybo.app.Launcher" `
-          --icon "bybo-app/src/main/resources/br/com/phkaiser/bybo/app/ui/appicons/ByBo.png" `
+          --icon "bybo-app/src/main/resources/br/com/phkaiser/bybo/app/ui/appicons/ByBo.ico" `
           --win-menu `
           --win-shortcut
 
