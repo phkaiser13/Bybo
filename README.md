@@ -55,8 +55,8 @@ Você precisará do **JDK 17** (ou superior) e do **Apache Maven** instalados em
 
 1.  **Clone o repositório:**
     ```bash
-    git clone https://github.com/seu-usuario/seu-repositorio.git
-    cd seu-repositorio
+    git clone https://github.com/phkaiser13/Bybo.git
+    cd ByBo
     ```
 
 2.  **Execute a aplicação:**
