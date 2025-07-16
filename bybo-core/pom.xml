@@ -1,0 +1,102 @@
+﻿<!--
+// 2025
+// By Pedro henrique garcia.
+// Github/gitlab: Phkaiser13
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Seção <parent> -->
+    <!-- Aqui declaramos que este POM é um "filho" do bybo-parent. -->
+    <!-- Ele herda todas as configurações, propriedades e gerenciamento de dependências do pai. -->
+    <!-- Isso evita repetição e mantém o projeto consistente. -->
+    <parent>
+        <groupId>br.com.phkaiser.bybo</groupId>
+        <artifactId>bybo-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <!-- Coordenadas específicas deste módulo. O groupId é herdado do pai. -->
+    <artifactId>bybo-core</artifactId>
+    <!-- O packaging padrão é 'jar', o que é perfeito para uma biblioteca de código como este módulo. -->
+    <packaging>jar</packaging>
+
+    <name>ByBo Core</name>
+    <description>Módulo central com as entidades e a lógica de negócio do sistema ByBo.</description>
+
+    <!-- Dependências específicas do módulo 'core' -->
+    <dependencies>
+        <!-- Adicionamos a biblioteca padrão do Kotlin. -->
+        <!-- A versão é gerenciada pelo <dependencyManagement> no pom.xml pai, então não precisamos especificá-la aqui. -->
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+        </dependency>
+    </dependencies>
+
+    <!-- Configuração de Build para o 'core' -->
+    <build>
+        <!-- O Maven por padrão só procura código em src/main/java. -->
+        <!-- Precisamos dizer a ele para também olhar na pasta do Kotlin. -->
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+
+        <plugins>
+            <!-- Plugin oficial do Kotlin para Maven. -->
+            <!-- Ele é essencial para compilar nosso código .kt para bytecode Java. -->
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <version>${kotlin.version}</version> <!-- A versão vem da propriedade no pai -->
+
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase> <!-- Executa na fase de compilação do Maven -->
+                        <goals>
+                            <goal>compile</goal> <!-- Compila o código de src/main/kotlin -->
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase> <!-- Executa na fase de compilação de testes -->
+                        <goals>
+                            <goal>test-compile</goal> <!-- Compila o código de src/test/kotlin -->
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- Garante que o código Kotlin seja compilado para a versão do Java que definimos. -->
+                    <jvmTarget>${java.version}</jvmTarget>
+                </configuration>
+            </plugin>
+
+            <!-- Plugin do compilador do Java -->
+            <!-- Precisamos dele para que o Java e o Kotlin possam se "enxergar" durante a compilação. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <!-- A versão e configuração básica já foram definidas no pluginManagement do pai -->
+                <executions>
+                    <!-- Substitui a execução padrão do compilador -->
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>none</phase>
+                    </execution>
+                    <!-- Compila o código Java depois que o Kotlin já foi compilado -->
+                    <execution>
+                        <id>java-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

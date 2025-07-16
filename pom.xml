@@ -1,0 +1,78 @@
+﻿<!--
+// 2025
+// By Pedro henrique garcia.
+// Github/gitlab: Phkaiser13
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Coordenadas do Projeto Pai -->
+    <!-- groupId: Geralmente o domínio reverso da sua empresa ou organização. Identifica seu projeto de forma única. -->
+    <groupId>br.com.phkaiser.bybo</groupId>
+    <!-- artifactId: O nome do seu projeto/artefato. Este é o nome do projeto "pai". -->
+    <artifactId>bybo-parent</artifactId>
+    <!-- version: A versão atual do seu projeto. -->
+    <version>1.0.0-SNAPSHOT</version>
+    <!-- packaging: 'pom' indica que este é um projeto pai, usado para agrupar outros módulos. Ele não gera um JAR ou WAR. -->
+    <packaging>pom</packaging>
+
+    <name>ByBo Library Management System</name>
+    <description>Projeto pai para o sistema de gerenciamento de biblioteca ByBo.</description>
+
+    <!-- Módulos que fazem parte deste projeto. O Maven saberá que precisa construir cada uma dessas pastas. -->
+    <modules>
+        <module>bybo-core</module>
+        <module>bybo-persistence</module>
+        <module>bybo-app</module>
+    </modules>
+
+    <!-- Propriedades globais. Usamos isso para definir versões de dependências e plugins em um só lugar. -->
+    <properties>
+        <!-- Garante que o projeto use UTF-8 para evitar problemas com acentuação. -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Versão do Java que vamos usar. Usar uma versão LTS (Long-Term Support) como a 17 é uma ótima prática. -->
+        <java.version>17</java.version>
+        <!-- Versão do Kotlin que vamos integrar ao projeto. -->
+        <kotlin.version>1.9.23</kotlin.version>
+        <!-- Versão do plugin do compilador do Maven. -->
+        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
+    </properties>
+
+    <!-- Gerenciamento Centralizado de Dependências -->
+    <!-- A seção <dependencyManagement> permite definir versões de dependências que os módulos filhos podem usar. -->
+    <!-- Isso garante que todos os módulos usem a mesma versão de uma biblioteca, evitando conflitos. -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Dependência da biblioteca padrão do Kotlin -->
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Configuração de Build Global -->
+    <build>
+        <!-- Gerenciamento Centralizado de Plugins -->
+        <!-- Similar ao dependencyManagement, mas para plugins do Maven. -->
+        <pluginManagement>
+            <plugins>
+                <!-- Plugin do compilador do Maven para configurar a versão do Java. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>
