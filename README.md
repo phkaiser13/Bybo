@@ -1,10 +1,3 @@
-Com certeza! Preparei uma versão aprimorada do seu README.md utilizando HTML para uma formatação mais rica e profissional.
-
-Substituí os ícones do Icons8 por emblemas (badges) do Shields.io, que são mais estáveis e visualmente consistentes. Também separei as seções de "Download" e "Desenvolvimento" para atender a públicos diferentes, como você pediu.
-
-Copie e cole o código abaixo diretamente no seu arquivo README.md:
-
-Generated html
 <div align="center">
   <img src="https://raw.githubusercontent.com/phkaiser13/Bybo/main/.github/resources/Preview.png" alt="ByBo - Sistema de Gerenciamento de Biblioteca" width="700"/>
   <br>
