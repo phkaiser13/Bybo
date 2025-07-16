@@ -16,18 +16,21 @@ import java.util.UUID;
 public final class Livro {
 
     // --- CAMPOS (FIELDS) ---
-    // Usamos 'private' para encapsular os dados. O acesso será feito via métodos (getters/setters).
-    private final UUID id;
-    // Campos agora são mutáveis
+    private UUID id;
     private String titulo;
     private String autor;
     private String isbn;
     private int anoPublicacao;
-
-    // Este campo não é 'final' porque seu valor pode mudar (um livro pode ser emprestado/devolvido).
     private StatusLivro status;
 
-    // --- CONSTRUTOR ---
+    /**
+     * Construtor padrão (sem argumentos).
+     * O Jackson usará este construtor para criar uma instância vazia do objeto
+     * antes de preencher os campos com os dados do arquivo.
+     */
+    public Livro() {
+    }
+
     /**
      * Construtor para criar uma nova instância de Livro.
      * O ID é gerado automaticamente e o status inicial é sempre DISPONIVEL.
@@ -69,6 +72,10 @@ public final class Livro {
 
     // --- MÉTODOS DE MODIFICAÇÃO (SETTERS) ---
     // Apenas para os campos que podem ser alterados.
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public void setStatus(StatusLivro status) {
         this.status = Objects.requireNonNull(status, "Status não pode ser nulo");
     }
