@@ -1,3 +1,10 @@
+Com certeza! Preparei uma versão aprimorada do seu README.md utilizando HTML para uma formatação mais rica e profissional.
+
+Substituí os ícones do Icons8 por emblemas (badges) do Shields.io, que são mais estáveis e visualmente consistentes. Também separei as seções de "Download" e "Desenvolvimento" para atender a públicos diferentes, como você pediu.
+
+Copie e cole o código abaixo diretamente no seu arquivo README.md:
+
+Generated html
 <div align="center">
   <img src="https://raw.githubusercontent.com/phkaiser13/Bybo/main/.github/resources/Preview.png" alt="ByBo - Sistema de Gerenciamento de Biblioteca" width="700"/>
   <br>
@@ -88,3 +95,35 @@ Para compilar e executar o projeto localmente, você precisará do **JDK 17 (ou 
 ```bash
 git clone https://github.com/phkaiser13/Bybo.git
 cd Bybo
+
+
+2. Execute a aplicação (Modo de Desenvolvimento):
+
+<p>Este comando compila e inicia a aplicação em modo de desenvolvimento.</p>
+```bash
+mvn clean javafx:run
+```
+
+
+3. Gerando o Pacote Final:
+
+<p>Para gerar o arquivo <code>.jar</code> executável da aplicação.</p>```bash
+# Empacota a aplicação
+mvn clean package
+
+Executa o arquivo .jar gerado
+
+java -jar bybo-app/target/bybo-app-1.0.0-SNAPSHOT.jar```
+
+📄 Licença
+
+Este projeto é distribuído sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+
+<hr>
+
+<p align="center">
+Feito com ❤️ por Pedro Henrique Garcia
+<br>
+<a href="https://github.com/phkaiser13"><strong>GitHub: @phkaiser13</strong></a>
+</p>
+```
