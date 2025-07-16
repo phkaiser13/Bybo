@@ -1,4 +1,4 @@
-// 2025
+﻿// 2025
 // By Pedro henrique garcia.
 // Github/gitlab: Phkaiser13
 
@@ -7,6 +7,7 @@ package br.com.phkaiser.bybo.app;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -39,7 +40,7 @@ public class ByBoGraphicalApp extends Application {
 
         // Configurações da janela principal (Stage).
         stage.setTitle("ByBo - Sistema de Gerenciamento de Biblioteca");
-        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/br/com/phkaiser/bybo/app/ui/appicons/ByBo.png"))));
+        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource("/br/com/phkaiser/bybo/app/ui/appicons/ByBo.png")).toExternalForm()));
         stage.setScene(scene);
         stage.setMinWidth(800);
         stage.setMinHeight(600);
