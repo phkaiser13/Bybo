@@ -1,9 +1,10 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/phkaiser13/Bybo/main/.github/resources/Preview.png" alt="ByBo - Sistema de Gerenciamento de Biblioteca" width="700"/>
+
   <br>
   <h1>📚 ByBo - Sistema de Gerenciamento de Biblioteca</h1>
   <p>
     <strong>Um projeto de demonstração de engenharia de software que une uma arquitetura robusta a uma GUI moderna e interativa com JavaFX.</strong>
+      <img src="https://raw.githubusercontent.com/phkaiser13/Bybo/main/.github/resources/Preview.png" alt="ByBo - Sistema de Gerenciamento de Biblioteca" width="700"/>
   </p>
   
   <!-- Badges de Tecnologia -->
