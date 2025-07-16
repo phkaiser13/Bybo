@@ -10,8 +10,7 @@ Bem-vindo ao ByBo! Este não é apenas um sistema de biblioteca funcional, mas u
 
 O objetivo do ByBo é ser uma ferramenta de gerenciamento de livros completa, elegante e um prazer de se usar.
 
-![Screenshot do ByBo](https://i.imgur.com/YOUR_SCREENSHOT_ID.png)
-*(Dica: Tire um screenshot da sua aplicação, faça o upload em um site como o [Imgur](https://imgur.com/upload) e substitua o link acima para exibir a imagem aqui!)*
+![Screenshot do ByBo](.github/resources/Preview.png)
 
 ---
 
