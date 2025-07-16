@@ -1,0 +1,92 @@
+﻿<!--
+// 2025
+// By Pedro henrique garcia.
+// Github/gitlab: Phkaiser13
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>br.com.phkaiser.bybo</groupId>
+        <artifactId>bybo-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>bybo-app</artifactId>
+    <packaging>jar</packaging>
+
+    <name>ByBo Console Application</name>
+    <description>Módulo da aplicação de console, a interface com o usuário final.</description>
+
+    <properties>
+        <!-- Versão da biblioteca Jansi para colorir nosso console -->
+        <jansi.version>2.4.1</jansi.version>
+        <!-- Versão do plugin para criar o JAR executável -->
+        <maven.assembly.plugin.version>3.6.0</maven.assembly.plugin.version>
+    </properties>
+
+    <dependencies>
+        <!-- Dependência do nosso módulo 'core'. Necessário para usar Livro, LivroRepository, etc. -->
+        <dependency>
+            <groupId>br.com.phkaiser.bybo</groupId>
+            <artifactId>bybo-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Dependência do nosso módulo 'persistence'. Necessário para instanciar o LivroRepositoryInMemory. -->
+        <dependency>
+            <groupId>br.com.phkaiser.bybo</groupId>
+            <artifactId>bybo-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Biblioteca Jansi para habilitar cores e formatação ANSI no console. -->
+        <!-- É o que usaremos para deixar a interface "bonita". -->
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+            <version>${jansi.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Maven Assembly Plugin -->
+            <!-- Este plugin é fundamental. Ele pega o código de todos os nossos módulos (app, core, persistence) -->
+            <!-- e de todas as dependências externas (jansi) e os empacota em um único arquivo JAR "gordo" (fat jar). -->
+            <!-- Isso nos permite distribuir e executar nossa aplicação com um único arquivo. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven.assembly.plugin.version}</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <!-- Especifica qual classe contém o método 'public static void main(String[] args)'. -->
+                            <!-- Este é o ponto de entrada da nossa aplicação. -->
+                            <mainClass>br.com.phkaiser.bybo.app.ByBoApplication</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <!-- 'jar-with-dependencies' é uma configuração pronta que diz ao plugin para incluir tudo. -->
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <!-- O plugin será executado durante a fase 'package' do ciclo de vida do Maven. -->
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
