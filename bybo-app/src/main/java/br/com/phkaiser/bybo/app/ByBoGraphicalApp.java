@@ -1,4 +1,4 @@
-// 2025
+﻿// 2025
 // By Pedro henrique garcia.
 // Github/gitlab: Phkaiser13
 
@@ -34,7 +34,7 @@ public class ByBoGraphicalApp extends Application {
 
         // Carregamos nossa folha de estilos CSS e a aplicamos à cena.
         // É aqui que a mágica do design acontece.
-        String css = Objects.requireNonNull(getClass().getResource("/br/com/phkaiser/bybo/app/ui/css/style.css")).toExternalForm();
+        String css = Objects.requireNonNull(getClass().getResource("/br/com/phkaiser/bybo/app/ui/css/styles.css")).toExternalForm();
         scene.getStylesheets().add(css);
 
         // Configurações da janela principal (Stage).
