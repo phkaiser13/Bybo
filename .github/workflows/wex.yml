@@ -1,0 +1,57 @@
+# .github/workflows/create-windows-executable.yml
+
+# Nome do workflow que aparecerá na aba "Actions" do GitHub.
+name: Create Windows Executable
+
+# Define o gatilho do workflow.
+# 'workflow_dispatch' permite que você inicie este workflow manualmente.
+on:
+  workflow_dispatch:
+
+# Define os jobs que serão executados.
+jobs:
+  build-windows:
+    # O job rodará em uma máquina virtual com a versão mais recente do Windows.
+    runs-on: windows-latest
+
+    # A sequência de passos que o job executará.
+    steps:
+    # 1. Checkout do código: Baixa o seu código do repositório para a máquina virtual.
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # 2. Configurar o JDK 17: Instala a versão correta do Java.
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    # 3. Build com o Maven: Roda o comando 'package' para compilar e gerar o JAR.
+    # Usamos o 'package' em vez de 'install', pois é suficiente para criar o JAR necessário.
+    # '-DskipTests' acelera o processo, já que os testes já são verificados no outro workflow.
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml -DskipTests
+
+    # 4. Criar o Executável com jpackage: Este é o passo principal.
+    # jpackage é uma ferramenta do JDK para criar instaladores nativos.
+    - name: Package with jpackage
+      run: |
+        jpackage --type exe `
+          --name "ByBo" `
+          --app-version 1.0.0 `
+          --vendor "phkaiser13" `
+          --input "bybo-app/target/" `
+          --main-jar "bybo-app-1.0.0-SNAPSHOT.jar" `
+          --main-class "br.com.phkaiser.bybo.app.Launcher" `
+          --icon "bybo-app/src/main/resources/br/com/phkaiser/bybo/app/ui/appicons/ByBo.png" `
+          --win-menu `
+          --win-shortcut
+
+    # 5. Fazer Upload do Artefato: Pega o instalador gerado pelo jpackage e o salva.
+    # Você poderá baixá-lo na página de resumo do workflow.
+    - name: Upload Windows Installer
+      uses: actions/upload-artifact@v4
+      with:
+        name: ByBo-Windows-Installer
+        path: ByBo-1.0.0.exe
