@@ -185,3 +185,61 @@
 #delete-button:hover {
     -fx-background-color: #c0392b;
 }
+
+.search-field {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-radius: 5px;
+    -fx-border-color: #555;
+    -fx-border-radius: 5px;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #bdc3c7;
+    -fx-padding: 8px 12px;
+}
+
+.search-field:focused {
+    -fx-border-color: #3498db;
+    -fx-border-width: 2px;
+}
+
+/* --- MELHORIAS NA TABELA --- */
+/* Define a cor de fundo para as linhas ímpares (efeito zebrado) */
+.table-row-cell:odd {
+    -fx-background-color: rgba(255, 255, 255, 0.02);
+}
+.table-row-cell:selected {
+    -fx-background-color: #3498db; /* Mantém a cor de seleção forte */
+}
+
+/* --- VALIDAÇÃO VISUAL --- */
+/* Estilo para campos de texto com erro de validação */
+.text-field.error {
+    -fx-border-color: #e74c3c; /* Borda vermelha */
+    -fx-border-width: 2px;
+}
+
+/* --- ESTILOS DO DASHBOARD --- */
+.dashboard-card {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 10px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+
+.dashboard-card .label {
+    -fx-text-fill: white;
+}
+
+.dashboard-card .title-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #bdc3c7; /* Cinza claro */
+}
+
+.dashboard-card .value-label {
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+}
+
+.dashboard-card .ikonli-font-icon {
+    -fx-icon-size: 36;
+}
