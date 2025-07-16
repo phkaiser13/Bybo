@@ -1,4 +1,4 @@
-﻿// 2025
+// 2025
 // By Pedro henrique garcia.
 // Github/gitlab: Phkaiser13
 

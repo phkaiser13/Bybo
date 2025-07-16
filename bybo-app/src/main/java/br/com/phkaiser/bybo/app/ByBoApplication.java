@@ -21,7 +21,7 @@ import static org.fusesource.jansi.Ansi.ansi;
  */
 public class ByBoApplication {
 
-    private static final LivroRepository livroRepository = new LivroRepositoryInMemory();
+    private static final LivroRepository livroRepository = new LivroRepositoryFileMsgPack();
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {

@@ -45,6 +45,7 @@ public class MainViewController {
 
     /**
      * Carrega uma view FXML na área de conteúdo principal.
+     *
      * @param fxmlFileName O nome do arquivo FXML a ser carregado.
      */
     private void loadView(String fxmlFileName) {
@@ -77,3 +78,4 @@ public class MainViewController {
             e.printStackTrace();
         }
     }
+}

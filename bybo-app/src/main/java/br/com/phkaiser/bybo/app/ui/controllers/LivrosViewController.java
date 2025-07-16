@@ -1,4 +1,4 @@
-﻿// 2025
+// 2025
 // By Pedro henrique garcia.
 // Github/gitlab: Phkaiser13
 
@@ -17,27 +17,30 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.Optional;
 
+/**
+ * Controller para a view LivrosView.fxml.
+ * Gerencia toda a interatividade da tela de gerenciamento de livros,
+ * incluindo CRUD, filtro, seleção e validação.
+ */
 public class LivrosViewController {
 
     private final LivroRepository livroRepository = new LivroRepositoryFileMsgPack();
 
-    // --- Variáveis FXML ---
+    //<editor-fold desc="Variáveis FXML">
     @FXML private TableView<Livro> livrosTableView;
     @FXML private TableColumn<Livro, String> colunaTitulo;
     @FXML private TableColumn<Livro, String> colunaAutor;
     @FXML private TableColumn<Livro, String> colunaIsbn;
     @FXML private TableColumn<Livro, Integer> colunaAno;
     @FXML private TableColumn<Livro, StatusLivro> colunaStatus;
-
     @FXML private TextField tituloField;
     @FXML private TextField autorField;
     @FXML private TextField isbnField;
     @FXML private TextField anoField;
     @FXML private TextField filtroField;
-
     @FXML private Button salvarButton;
+    //</editor-fold>
 
-    // --- Listas de Dados ---
     private ObservableList<Livro> masterData;
     private FilteredList<Livro> filteredData;
 
@@ -84,13 +87,10 @@ public class LivrosViewController {
     private void configurarFiltroESelecao() {
         filtroField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(livro -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
+                if (newValue == null || newValue.isEmpty()) return true;
                 String lowerCaseFilter = newValue.toLowerCase();
-                if (livro.getTitulo().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else return livro.getAutor().toLowerCase().contains(lowerCaseFilter);
+                return livro.getTitulo().toLowerCase().contains(lowerCaseFilter) ||
+                        livro.getAutor().toLowerCase().contains(lowerCaseFilter);
             });
         });
 
@@ -107,15 +107,12 @@ public class LivrosViewController {
             anoField.setText(Integer.toString(livro.getAnoPublicacao()));
             salvarButton.setText("Atualizar");
         } else {
-            // Se nenhum livro for selecionado (ex: ao limpar), limpa o formulário.
-            // A chamada para handleLimparFormulario() já está no listener, então esta parte é redundante,
-            // mas mantê-la aqui não causa problemas e deixa a intenção clara.
+            handleLimparFormulario();
         }
     }
 
     @FXML
     private void handleSalvarLivro() {
-        // A lógica foi movida para o método validateAndSave para melhor organização.
         validateAndSave();
     }
 
@@ -126,12 +123,9 @@ public class LivrosViewController {
         autorField.clear();
         isbnField.clear();
         anoField.clear();
-
-        // Remove o estilo de erro de todos os campos
         setFieldErrorStyle(tituloField, true);
         setFieldErrorStyle(autorField, true);
         setFieldErrorStyle(anoField, true);
-
         salvarButton.setText("Salvar");
         tituloField.requestFocus();
     }
@@ -175,13 +169,10 @@ public class LivrosViewController {
             mostrarAlerta(Alert.AlertType.WARNING, "Nenhuma Seleção", "Por favor, selecione um livro para excluir.");
             return;
         }
-        Optional<ButtonType> resultado = mostrarAlertaConfirmacao(
-                "Confirmar Exclusão",
-                "Você tem certeza que deseja excluir o livro '" + livroSelecionado.getTitulo() + "'?\nEsta ação não pode ser desfeita."
-        );
+        Optional<ButtonType> resultado = mostrarAlertaConfirmacao("Confirmar Exclusão", "Você tem certeza que deseja excluir o livro '" + livroSelecionado.getTitulo() + "'?");
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             livroRepository.deletarPorId(livroSelecionado.getId());
-            masterData.remove(livroSelecionado); // Remove da lista mestre para atualizar a UI.
+            masterData.remove(livroSelecionado);
         }
     }
 
@@ -192,9 +183,7 @@ public class LivrosViewController {
         int ano = 0;
 
         try {
-            if (anoValido) {
-                ano = Integer.parseInt(anoField.getText().trim());
-            }
+            if (anoValido) ano = Integer.parseInt(anoField.getText());
         } catch (NumberFormatException e) {
             anoValido = false;
         }
@@ -204,20 +193,20 @@ public class LivrosViewController {
         setFieldErrorStyle(anoField, anoValido);
 
         if (!tituloValido || !autorValido || !anoValido) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Campos Inválidos", "Por favor, corrija os campos destacados em vermelho.");
+            mostrarAlerta(Alert.AlertType.WARNING, "Campos Inválidos", "Por favor, corrija os campos destacados.");
             return false;
         }
 
         Livro livroSelecionado = livrosTableView.getSelectionModel().getSelectedItem();
-        if (livroSelecionado != null) { // Atualização
-            livroSelecionado.setTitulo(tituloField.getText().trim());
-            livroSelecionado.setAutor(autorField.getText().trim());
-            livroSelecionado.setIsbn(isbnField.getText().trim());
+        if (livroSelecionado != null) {
+            livroSelecionado.setTitulo(tituloField.getText());
+            livroSelecionado.setAutor(autorField.getText());
+            livroSelecionado.setIsbn(isbnField.getText());
             livroSelecionado.setAnoPublicacao(ano);
             livroRepository.salvar(livroSelecionado);
             livrosTableView.refresh();
-        } else { // Adição
-            Livro novoLivro = new Livro(tituloField.getText().trim(), autorField.getText().trim(), isbnField.getText().trim(), ano);
+        } else {
+            Livro novoLivro = new Livro(tituloField.getText(), autorField.getText(), isbnField.getText(), ano);
             livroRepository.salvar(novoLivro);
             masterData.add(novoLivro);
         }
@@ -226,13 +215,8 @@ public class LivrosViewController {
     }
 
     private void setFieldErrorStyle(TextField field, boolean isValid) {
-        if (isValid) {
-            field.getStyleClass().remove("error");
-        } else {
-            if (!field.getStyleClass().contains("error")) {
-                field.getStyleClass().add("error");
-            }
-        }
+        if (isValid) field.getStyleClass().remove("error");
+        else if (!field.getStyleClass().contains("error")) field.getStyleClass().add("error");
     }
 
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensagem) {
@@ -255,7 +239,6 @@ public class LivrosViewController {
         if (livroRepository.buscarTodos().isEmpty()) {
             livroRepository.salvar(new Livro("O Senhor dos Anéis", "J.R.R. Tolkien", "978-0618640157", 1954));
             livroRepository.salvar(new Livro("1984", "George Orwell", "978-0451524935", 1949));
-            livroRepository.salvar(new Livro("Dom Quixote", "Miguel de Cervantes", "978-8535910030", 1605));
         }
     }
 }

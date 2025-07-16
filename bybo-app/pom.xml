@@ -92,6 +92,27 @@
                 </executions>
             </plugin>
             <!-- O plugin maven-compiler-plugin já está configurado no nosso POM pai, então não precisamos mexer nele. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <!-- Especifica a classe que tem o método main() -->
+                                    <mainClass>br.com.phkaiser.bybo.app.ByBoGraphicalApp</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
