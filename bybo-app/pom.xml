@@ -1,10 +1,4 @@
-﻿<!--
-// 2025
-// By Pedro henrique garcia.
-// Github/gitlab: Phkaiser13
--->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0"
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -22,14 +16,11 @@
     <description>Módulo da aplicação gráfica (GUI) com JavaFX.</description>
 
     <properties>
-        <!-- Definimos a versão do JavaFX em um só lugar -->
         <javafx.version>17.0.10</javafx.version>
-        <!-- Versão do plugin do Maven para JavaFX -->
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
     </properties>
 
     <dependencies>
-        <!-- As dependências dos nossos módulos de core e persistence continuam exatamente as mesmas. -->
         <dependency>
             <groupId>br.com.phkaiser.bybo</groupId>
             <artifactId>bybo-core</artifactId>
@@ -52,14 +43,11 @@
             <version>12.3.1</version>
         </dependency>
 
-        <!-- DEPENDÊNCIAS DO JAVAFX -->
-        <!-- javafx-controls: Contém os componentes de UI (Button, TableView, TextField, etc.) -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>${javafx.version}</version>
         </dependency>
-        <!-- javafx-fxml: Permite carregar os arquivos FXML que definem a nossa interface. -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
@@ -69,29 +57,23 @@
             <groupId>org.fusesource.jansi</groupId>
             <artifactId>jansi</artifactId>
             <version>2.4.0</version> </dependency>
-        <!-- A dependência do Jansi foi removida, pois não é mais necessária para uma GUI. -->
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Plugin do Maven para JavaFX -->
-            <!-- Este plugin facilita a compilação e execução de aplicações JavaFX. -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>${javafx.maven.plugin.version}</version>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running with 'mvn javafx:run' -->
                         <id>default-cli</id>
                         <configuration>
-                            <!-- A classe principal da nossa aplicação gráfica. Vamos criá-la a seguir. -->
-                            <mainClass>br.com.phkaiser.bybo.app.ByBoGraphicalApp</mainClass>
+                            <mainClass>br.com.phkaiser.bybo.app.Launcher</mainClass>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <!-- O plugin maven-compiler-plugin já está configurado no nosso POM pai, então não precisamos mexer nele. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -105,8 +87,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <!-- Especifica a classe que tem o método main() -->
-                                    <mainClass>br.com.phkaiser.bybo.app.ByBoGraphicalApp</mainClass>
+                                    <mainClass>br.com.phkaiser.bybo.app.Launcher</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

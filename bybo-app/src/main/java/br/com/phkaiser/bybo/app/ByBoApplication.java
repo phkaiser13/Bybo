@@ -10,6 +10,7 @@ import br.com.phkaiser.bybo.core.domain.repository.LivroRepository;
 import br.com.phkaiser.bybo.persistence.repository.LivroRepositoryInMemory;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
+import br.com.phkaiser.bybo.persistence.repository.LivroRepositoryFileMsgPack;
 
 import java.util.*;
 

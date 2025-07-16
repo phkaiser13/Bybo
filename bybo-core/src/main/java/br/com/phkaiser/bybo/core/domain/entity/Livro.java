@@ -17,12 +17,12 @@ public final class Livro {
 
     // --- CAMPOS (FIELDS) ---
     // Usamos 'private' para encapsular os dados. O acesso será feito via métodos (getters/setters).
-    // Usamos 'final' para campos que não devem mudar após a criação do objeto (imutabilidade).
     private final UUID id;
-    private final String titulo;
-    private final String autor;
-    private final String isbn;
-    private final int anoPublicacao;
+    // Campos agora são mutáveis
+    private String titulo;
+    private String autor;
+    private String isbn;
+    private int anoPublicacao;
 
     // Este campo não é 'final' porque seu valor pode mudar (um livro pode ser emprestado/devolvido).
     private StatusLivro status;
@@ -72,6 +72,24 @@ public final class Livro {
     public void setStatus(StatusLivro status) {
         this.status = Objects.requireNonNull(status, "Status não pode ser nulo");
     }
+
+    // Setters adicionados
+    public void setTitulo(String titulo) {
+        this.titulo = Objects.requireNonNull(titulo, "Título não pode ser nulo");
+    }
+
+    public void setAutor(String autor) {
+        this.autor = Objects.requireNonNull(autor, "Autor não pode ser nulo");
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = Objects.requireNonNull(isbn, "ISBN não pode ser nulo");
+    }
+
+    public void setAnoPublicacao(int anoPublicacao) {
+        this.anoPublicacao = anoPublicacao;
+    }
+
 
     // --- MÉTODOS PADRÃO (equals, hashCode, toString) ---
 
