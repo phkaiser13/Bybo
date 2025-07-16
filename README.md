@@ -74,10 +74,6 @@ O projeto é dividido em três módulos, seguindo as melhores práticas de desig
 -   `bybo-persistence`: A camada de dados. Implementa o repositório para ler e escrever os dados da aplicação.
 -   `bybo-app`: A camada de apresentação. Contém a lógica da interface gráfica e a interação com o usuário.
 
-<div align="center">
-  <img src="https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuNBCoajB2L9DBb8mG5QgoS992G00" alt="Diagrama de Arquitetura"/>
-</div>
-
 ---
 
 ### 👨‍💻 Para Desenvolvedores: Executando o Projeto
@@ -100,13 +96,17 @@ mvn clean javafx:run
 
 3. Gerando o Pacote Final:
 
-<p>Para gerar o arquivo <code>.jar</code> executável da aplicação.</p>```bash
-# Empacota a aplicação
+<p>Para gerar o arquivo <code>.jar</code> executável da aplicação.</p>
+
+```bash
+
+#Empacota a aplicação
 mvn clean package
 
 Executa o arquivo .jar gerado
 
-java -jar bybo-app/target/bybo-app-1.0.0-SNAPSHOT.jar```
+java -jar bybo-app/target/bybo-app-1.0.0-SNAPSHOT.jar
+```
 
 📄 Licença
 
@@ -119,4 +119,4 @@ Feito com ❤️ por Pedro Henrique Garcia
 <br>
 <a href="https://github.com/phkaiser13"><strong>GitHub: @phkaiser13</strong></a>
 </p>
-```
+
