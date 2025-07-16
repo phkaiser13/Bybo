@@ -9,6 +9,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <!-- Boa prática: centralizar a versão do Jackson -->
+        <jackson.version>2.15.2</jackson.version>
+    </properties>
+
+
     <!-- Novamente, declaramos o 'bybo-parent' como pai para herdar as configurações globais. -->
     <parent>
         <groupId>br.com.phkaiser.bybo</groupId>
@@ -35,7 +41,22 @@
             <!-- Isso garante que os módulos sempre dependam da mesma versão uns dos outros. -->
             <version>${project.version}</version>
         </dependency>
+        <!-- O motor principal da biblioteca Jackson, para converter objetos Java para outros formatos e vice-versa. -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <!-- A extensão que ensina o Jackson a "falar" o formato MessagePack. -->
+        <dependency>
+            <groupId>org.msgpack</groupId>
+            <artifactId>jackson-dataformat-msgpack</artifactId>
+            <version>0.9.3</version>
+        </dependency>
     </dependencies>
+
+
 
     <!--
         Nota: Não precisamos adicionar os plugins do Kotlin aqui, pois planejamos

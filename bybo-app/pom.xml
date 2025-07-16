@@ -18,74 +18,80 @@
     <artifactId>bybo-app</artifactId>
     <packaging>jar</packaging>
 
-    <name>ByBo Console Application</name>
-    <description>Módulo da aplicação de console, a interface com o usuário final.</description>
+    <name>ByBo</name>
+    <description>Módulo da aplicação gráfica (GUI) com JavaFX.</description>
 
     <properties>
-        <!-- Versão da biblioteca Jansi para colorir nosso console -->
-        <jansi.version>2.4.1</jansi.version>
-        <!-- Versão do plugin para criar o JAR executável -->
-        <maven.assembly.plugin.version>3.6.0</maven.assembly.plugin.version>
+        <!-- Definimos a versão do JavaFX em um só lugar -->
+        <javafx.version>17.0.10</javafx.version>
+        <!-- Versão do plugin do Maven para JavaFX -->
+        <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
     </properties>
 
     <dependencies>
-        <!-- Dependência do nosso módulo 'core'. Necessário para usar Livro, LivroRepository, etc. -->
+        <!-- As dependências dos nossos módulos de core e persistence continuam exatamente as mesmas. -->
         <dependency>
             <groupId>br.com.phkaiser.bybo</groupId>
             <artifactId>bybo-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <!-- Dependência do nosso módulo 'persistence'. Necessário para instanciar o LivroRepositoryInMemory. -->
         <dependency>
             <groupId>br.com.phkaiser.bybo</groupId>
             <artifactId>bybo-persistence</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>12.3.1</version>
+        </dependency>
 
-        <!-- Biblioteca Jansi para habilitar cores e formatação ANSI no console. -->
-        <!-- É o que usaremos para deixar a interface "bonita". -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-fontawesome5-pack</artifactId>
+            <version>12.3.1</version>
+        </dependency>
+
+        <!-- DEPENDÊNCIAS DO JAVAFX -->
+        <!-- javafx-controls: Contém os componentes de UI (Button, TableView, TextField, etc.) -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <!-- javafx-fxml: Permite carregar os arquivos FXML que definem a nossa interface. -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.fusesource.jansi</groupId>
             <artifactId>jansi</artifactId>
-            <version>${jansi.version}</version>
-        </dependency>
+            <version>2.4.0</version> </dependency>
+        <!-- A dependência do Jansi foi removida, pois não é mais necessária para uma GUI. -->
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Maven Assembly Plugin -->
-            <!-- Este plugin é fundamental. Ele pega o código de todos os nossos módulos (app, core, persistence) -->
-            <!-- e de todas as dependências externas (jansi) e os empacota em um único arquivo JAR "gordo" (fat jar). -->
-            <!-- Isso nos permite distribuir e executar nossa aplicação com um único arquivo. -->
+            <!-- Plugin do Maven para JavaFX -->
+            <!-- Este plugin facilita a compilação e execução de aplicações JavaFX. -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>${maven.assembly.plugin.version}</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <!-- Especifica qual classe contém o método 'public static void main(String[] args)'. -->
-                            <!-- Este é o ponto de entrada da nossa aplicação. -->
-                            <mainClass>br.com.phkaiser.bybo.app.ByBoApplication</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <!-- 'jar-with-dependencies' é uma configuração pronta que diz ao plugin para incluir tudo. -->
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>${javafx.maven.plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>make-assembly</id>
-                        <!-- O plugin será executado durante a fase 'package' do ciclo de vida do Maven. -->
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
+                        <!-- Default configuration for running with 'mvn javafx:run' -->
+                        <id>default-cli</id>
+                        <configuration>
+                            <!-- A classe principal da nossa aplicação gráfica. Vamos criá-la a seguir. -->
+                            <mainClass>br.com.phkaiser.bybo.app.ByBoGraphicalApp</mainClass>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <!-- O plugin maven-compiler-plugin já está configurado no nosso POM pai, então não precisamos mexer nele. -->
         </plugins>
     </build>
 

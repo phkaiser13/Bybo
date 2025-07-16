@@ -1,0 +1,187 @@
+/*
+// 2025
+// By Pedro henrique garcia.
+// Github/gitlab: Phkaiser13
+*/
+
+/* Estilo base para toda a aplicação */
+.root {
+    /* Um gradiente de fundo sutil e moderno, de um azul escuro para um roxo escuro. */
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #2c3e50, #4b384c);
+    -fx-font-family: "Segoe UI", Arial, sans-serif; /* Uma fonte limpa e moderna */
+}
+
+/* Estilo para os botões padrão */
+.button {
+    -fx-background-color: #3498db; /* Azul vibrante */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20px; /* Cantos totalmente arredondados */
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0, 0, 2); /* Sombra sutil */
+}
+
+/* Efeito de hover para os botões */
+.button:hover {
+    -fx-background-color: #2980b9; /* Um tom de azul um pouco mais escuro */
+    -fx-cursor: hand; /* Muda o cursor para uma mãozinha */
+    -fx-scale-x: 1.05; /* Efeito de zoom sutil */
+    -fx-scale-y: 1.05;
+}
+
+/* Estilo específico para o botão de "Excluir" */
+#delete-button {
+    -fx-background-color: #e74c3c; /* Vermelho para indicar perigo */
+}
+
+#delete-button:hover {
+    -fx-background-color: #c0392b; /* Vermelho mais escuro */
+}
+
+/* Estilo para a Tabela */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #3498db;
+    -fx-border-width: 2px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+/* Estilo para o cabeçalho da tabela */
+.table-view .column-header-background {
+    -fx-background-color: #2c3e50;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-size: 40px; /* Altura do cabeçalho */
+    -fx-border-color: transparent #3498db transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #3498db;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 0 0 10px;
+}
+
+/* Estilo para as células da tabela */
+.table-cell {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-border-color: transparent #2c3e50 transparent transparent;
+    -fx-padding: 10px;
+}
+
+/* Remove a cor de fundo alternada das linhas para um visual mais limpo */
+.table-row-cell {
+    -fx-background-color: transparent;
+}
+
+/* Efeito de hover para as linhas da tabela */
+.table-row-cell:hover {
+    -fx-background-color: #34495e;
+}
+
+/* Estilo para o texto de placeholder quando a tabela está vazia */
+.table-view .placeholder .label {
+    -fx-text-fill: #bdc3c7;
+    -fx-font-size: 18px;
+}
+
+/* Estilo para os campos de texto */
+.text-field {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-radius: 20px;
+    -fx-border-color: #3498db;
+    -fx-border-radius: 20px;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #bdc3c7; /* Cor do texto de dica (prompt) */
+    -fx-padding: 10px 15px;
+}
+
+.text-field:focused {
+    -fx-border-width: 2px;
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+.root {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #232526, #414345);
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* --- BARRA DE NAVEGAÇÃO LATERAL --- */
+.nav-pane {
+    -fx-background-color: #1e1e1e; /* Um cinza bem escuro, quase preto */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 5, 0);
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #bdc3c7; /* Cinza claro para o texto */
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 15px 25px;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent transparent transparent #1e1e1e; /* Borda esquerda invisível por padrão */
+    -fx-border-width: 0 0 0 5;
+    -fx-graphic-text-gap: 15; /* Espaço entre o ícone e o texto */
+}
+
+.nav-button:hover {
+    -fx-background-color: #2a2a2a;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.nav-button:focused, .nav-button.selected {
+    -fx-background-color: #2a2a2a;
+    -fx-text-fill: white;
+    -fx-border-color: transparent transparent transparent #3498db; /* Borda azul para o botão selecionado */
+}
+
+/* Estilo para os ícones da navegação */
+.nav-button .ikonli-font-icon {
+    -fx-icon-size: 20;
+    -fx-icon-color: #bdc3c7;
+}
+
+.nav-button:hover .ikonli-font-icon, .nav-button:focused .ikonli-font-icon, .nav-button.selected .ikonli-font-icon {
+    -fx-icon-color: white;
+}
+
+
+/* --- BOTÕES DE AÇÃO PRINCIPAIS --- */
+.action-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);
+    -fx-graphic-text-gap: 8;
+}
+
+.action-button:hover {
+    -fx-background-color: #2980b9;
+    -fx-cursor: hand;
+    -fx-scale-y: 1.05;
+}
+
+.action-button .ikonli-font-icon {
+    -fx-icon-size: 16;
+    -fx-icon-color: white;
+}
+
+/* Botão de Excluir */
+#delete-button {
+    -fx-background-color: #e74c3c;
+}
+#delete-button:hover {
+    -fx-background-color: #c0392b;
+}
