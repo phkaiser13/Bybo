@@ -39,6 +39,7 @@ public class ByBoGraphicalApp extends Application {
 
         // Configurações da janela principal (Stage).
         stage.setTitle("ByBo - Sistema de Gerenciamento de Biblioteca");
+        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/br/com/phkaiser/bybo/app/ui/appicons/ByBo.png"))));
         stage.setScene(scene);
         stage.setMinWidth(800);
         stage.setMinHeight(600);
