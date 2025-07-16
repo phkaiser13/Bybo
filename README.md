@@ -95,7 +95,7 @@ mvn clean javafx:run
 ```
 
 
-3. Gerando o Pacote Final:
+**3. Gerando o Pacote Final:**
 
 <p>Para gerar o arquivo <code>.jar</code> executável da aplicação.</p>
 
