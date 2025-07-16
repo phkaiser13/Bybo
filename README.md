@@ -84,11 +84,12 @@ Para compilar e executar o projeto localmente, você precisará do **JDK 17 (ou 
 ```bash
 git clone https://github.com/phkaiser13/Bybo.git
 cd Bybo
+```
 
-
-2. Execute a aplicação (Modo de Desenvolvimento):
+**2. Execute a aplicação (Modo de Desenvolvimento):**
 
 <p>Este comando compila e inicia a aplicação em modo de desenvolvimento.</p>
+
 ```bash
 mvn clean javafx:run
 ```
