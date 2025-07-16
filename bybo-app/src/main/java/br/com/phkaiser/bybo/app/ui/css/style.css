@@ -6,9 +6,8 @@
 
 /* Estilo base para toda a aplicação */
 .root {
-    /* Um gradiente de fundo sutil e moderno, de um azul escuro para um roxo escuro. */
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #2c3e50, #4b384c);
-    -fx-font-family: "Segoe UI", Arial, sans-serif; /* Uma fonte limpa e moderna */
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #232526, #414345); /* novo gradiente */
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
 }
 
 /* Estilo para os botões padrão */
@@ -109,11 +108,6 @@
     -fx-background-color: rgba(255, 255, 255, 0.2);
 }
 
-.root {
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #232526, #414345);
-    -fx-font-family: "Segoe UI", Arial, sans-serif;
-}
-
 /* --- BARRA DE NAVEGAÇÃO LATERAL --- */
 .nav-pane {
     -fx-background-color: #1e1e1e; /* Um cinza bem escuro, quase preto */
@@ -178,13 +172,6 @@
     -fx-icon-color: white;
 }
 
-/* Botão de Excluir */
-#delete-button {
-    -fx-background-color: #e74c3c;
-}
-#delete-button:hover {
-    -fx-background-color: #c0392b;
-}
 
 .search-field {
     -fx-background-color: rgba(255, 255, 255, 0.1);
