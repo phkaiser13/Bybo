@@ -26,7 +26,7 @@
 
 <div align="center">
   <p>Clique no botão abaixo para baixar o instalador para Windows.</p>
-  <a href="[https://github.com/phkaiser13/Bybo/releases/download/1.0-Def/ByBo-1.0.0.msi]" title="Baixar para Windows">
+  <a href="https://github.com/phkaiser13/Bybo/releases/download/1.0-Def/ByBo-1.0.0.msi" title="Baixar para Windows">
     <img src="https://img.shields.io/badge/Baixar_para_Windows-0078D6?style=for-the-badge&logo=windows11&logoColor=white" alt="Download para Windows"/>
   </a>
 </div>
@@ -124,4 +124,3 @@ Feito com ❤️ por Pedro Henrique Garcia
 <br>
 <a href="https://github.com/phkaiser13"><strong>GitHub: @phkaiser13</strong></a>
 </p>
-
