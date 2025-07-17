@@ -1,12 +1,16 @@
 <div align="center">
 
-  <br>
   <h1>📚 ByBo - Sistema de Gerenciamento de Biblioteca</h1>
-  <p>
-    <strong>Um projeto de demonstração de engenharia de software que une uma arquitetura robusta a uma GUI moderna e interativa com JavaFX.</strong>
-      <img src="https://raw.githubusercontent.com/phkaiser13/Bybo/main/.github/resources/ByBo.png" alt="ByBo - Sistema de Gerenciamento de Biblioteca" width="400"/>
-  </p>
-  
+
+  <p><strong>
+    Um projeto de demonstração de engenharia de software que une uma arquitetura robusta<br>
+    a uma GUI moderna e interativa com JavaFX.
+  </strong></p>
+
+  <img src="https://raw.githubusercontent.com/phkaiser13/Bybo/main/.github/resources/ByBo.png" 
+       alt="ByBo - Sistema de Gerenciamento de Biblioteca" 
+       width="400"/>
+
   <!-- Badges de Tecnologia -->
   <p>
     <img src="https://img.shields.io/badge/Java-17-blue?logo=openjdk&logoColor=white" alt="Java 17"/>
@@ -16,7 +20,6 @@
     <img src="https://img.shields.io/badge/Licença-MIT-green" alt="Licença MIT"/>
   </p>
 </div>
-
 ---
 
 ### 🚀 Para Usuários: Baixe e Instale
