@@ -20,7 +20,7 @@
     <img src="https://img.shields.io/badge/Licença-MIT-green" alt="Licença MIT"/>
   </p>
 </div>
----
+
 
 ### 🚀 Para Usuários: Baixe e Instale
 
