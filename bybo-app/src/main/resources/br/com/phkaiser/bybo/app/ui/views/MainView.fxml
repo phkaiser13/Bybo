@@ -6,7 +6,6 @@
 // Github/gitlab: Phkaiser13
 -->
 
-<!-- Importações de componentes JavaFX que usaremos no FXML -->
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,37 +13,28 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<!--
-O elemento raiz é um BorderPane.
-fx:controller aponta para o MainViewController, que controla a NAVEGAÇÃO.
--->
 <BorderPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.phkaiser.bybo.app.ui.controllers.MainViewController">
 
-    <!-- Seção ESQUERDA (left): Nossa barra de navegação vertical. -->
     <left>
-        <!-- VBox organiza os botões verticalmente. -->
-        <!-- styleClass="nav-pane" aplica o estilo escuro que definimos no CSS. -->
-        <VBox styleClass="nav-pane" alignment="TOP_CENTER" spacing="10.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+        <!-- Adicionado fx:id="navigationVBox" para que o controller possa adicionar botões aqui -->
+        <VBox fx:id="navigationVBox" styleClass="nav-pane" alignment="TOP_CENTER" spacing="10.0" prefWidth="220.0" BorderPane.alignment="CENTER">
             <padding><Insets top="20.0" /></padding>
             <children>
-                <!-- Botão para navegar para a tela de Livros -->
-                <!-- onAction="#handleNavegarLivros" chama o método no MainViewController. -->
-                <!-- styleClass="nav-button" aplica o estilo de botão de navegação do CSS. -->
-                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleNavegarLivros" styleClass="nav-button" text="Gerenciar Livros">
+                <!-- O botão de Livros foi removido. Os botões de tabela serão adicionados aqui dinamicamente. -->
+                
+                <!-- Novo botão para gerenciar as tabelas -->
+                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleNavegarSchemaEditor" styleClass="nav-button" text="Gerenciar Tabelas">
                     <graphic>
-                        <!-- O ícone que aparece ao lado do texto. -->
-                        <FontIcon iconLiteral="fas-book" />
+                        <FontIcon iconLiteral="fas-cog" />
                     </graphic>
                 </Button>
 
-                <!-- Botão para navegar para a tela de Dashboard -->
                 <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleNavegarDashboard" styleClass="nav-button" text="Dashboard">
                     <graphic>
                         <FontIcon iconLiteral="fas-chart-pie" />
                     </graphic>
                 </Button>
 
-                <!-- Botão para Sair da aplicação -->
                 <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSair" styleClass="nav-button" text="Sair">
                     <graphic>
                         <FontIcon iconLiteral="fas-sign-out-alt" />
@@ -54,13 +44,7 @@ fx:controller aponta para o MainViewController, que controla a NAVEGAÇÃO.
         </VBox>
     </left>
 
-    <!-- Seção CENTRAL (center): A área de conteúdo dinâmica. -->
     <center>
-        <!--
-        Este AnchorPane é o nosso container vazio.
-        O MainViewController irá carregar as outras views (LivrosView, DashboardView) DENTRO dele.
-        O fx:id="contentPane" permite que o controller encontre este container para modificá-lo.
-        -->
         <AnchorPane fx:id="contentPane" BorderPane.alignment="CENTER" />
     </center>
 </BorderPane>

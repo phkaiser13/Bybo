@@ -1,13 +1,13 @@
-# .github/workflows/create-linux-executable.yml
+# .github/workflows/create-Debian-executable.yml
 
-name: Create Linux Installer (DEB)
+name: Create Debian Installer (DEB)
 
 on:
   push:
     branches: [main]
 
 jobs:
-  build-linux:
+  build-Debian:
     runs-on: ubuntu-latest
 
     steps:
@@ -42,8 +42,8 @@ jobs:
           --linux-shortcut \
           --linux-menu-group "Utility"
 
-    - name: Upload Linux Installer (DEB)
+    - name: Upload Debian Installer (DEB)
       uses: actions/upload-artifact@v4
       with:
-        name: ByBo-Linux-Installer-DEB
+        name: ByBo-Debian-Installer-DEB
         path: ByBo-1.0.0.deb

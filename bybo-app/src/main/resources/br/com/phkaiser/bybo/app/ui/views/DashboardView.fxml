@@ -1,41 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox alignment="TOP_CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.phkaiser.bybo.app.ui.controllers.DashboardViewController">
-    <padding><Insets top="20.0" left="20.0" right="20.0" bottom="20.0"/></padding>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
     <children>
-        <Label text="Visão Geral da Biblioteca" style="-fx-font-size: 28px; -fx-text-fill: white; -fx-font-weight: bold;"/>
-        <GridPane hgap="20" vgap="20" alignment="CENTER">
+        <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <children>
+                <Label text="Análise de Dados" style="-fx-font-size: 28px; -fx-text-fill: white; -fx-font-weight: bold;" />
+                <ComboBox fx:id="tableSelectorComboBox" promptText="Selecione uma Tabela" />
+            </children>
+        </HBox>
+        <GridPane hgap="20" vgap="20">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0" />
             </columnConstraints>
-            <rowConstraints><RowConstraints minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" /></rowConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
+            </rowConstraints>
             <children>
-                <!-- Card 1: Total de Livros -->
-                <VBox styleClass="dashboard-card" alignment="CENTER" spacing="10" GridPane.columnIndex="0">
-                    <FontIcon iconLiteral="fas-book-dead" style="-fx-icon-color: #3498db;"/>
-                    <Label styleClass="title-label" text="Total de Livros"/>
-                    <Label fx:id="totalLivrosLabel" styleClass="value-label" text="0"/>
-                </VBox>
-                <!-- Card 2: Livros Disponíveis -->
-                <VBox styleClass="dashboard-card" alignment="CENTER" spacing="10" GridPane.columnIndex="1">
-                    <FontIcon iconLiteral="fas-check-circle" style="-fx-icon-color: #2ecc71;"/>
-                    <Label styleClass="title-label" text="Disponíveis"/>
-                    <Label fx:id="disponiveisLabel" styleClass="value-label" text="0"/>
-                </VBox>
-                <!-- Card 3: Livros Emprestados -->
-                <VBox styleClass="dashboard-card" alignment="CENTER" spacing="10" GridPane.columnIndex="2">
-                    <FontIcon iconLiteral="fas-arrow-alt-circle-up" style="-fx-icon-color: #e74c3c;"/>
-                    <Label styleClass="title-label" text="Emprestados"/>
-                    <Label fx:id="emprestadosLabel" styleClass="value-label" text="0"/>
+                <VBox alignment="CENTER" spacing="10" styleClass="dashboard-card" GridPane.columnIndex="0">
+                    <children>
+                        <FontIcon iconLiteral="fas-database" style="-fx-icon-color: #3498db;" />
+                        <Label styleClass="title-label" text="Total de Itens Registrados" />
+                        <Label fx:id="totalItemsLabel" styleClass="value-label" text="-" />
+                    </children>
                 </VBox>
             </children>
         </GridPane>
+        <StackPane VBox.vgrow="ALWAYS">
+            <children>
+                <PieChart fx:id="distributionChart" title="Distribuição por Categoria" visible="false" />
+                <Label fx:id="chartPlaceholderLabel" text="Selecione uma tabela com um campo do tipo 'LISTA_OPCOES' para ver o gráfico." style="-fx-text-fill: white;" />
+            </children>
+        </StackPane>
     </children>
 </VBox>
