@@ -5,7 +5,7 @@ name: Create Release
 on:
   push:
     tags:
-      - 'v*' # Trigger on tags like v1.0, v2.3.4
+
 
 jobs:
   build-and-release:
