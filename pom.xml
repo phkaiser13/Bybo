@@ -15,7 +15,7 @@
     <!-- artifactId: O nome do seu projeto/artefato. Este é o nome do projeto "pai". -->
     <artifactId>bybo-parent</artifactId>
     <!-- version: A versão atual do seu projeto. -->
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${revision}</version>
     <!-- packaging: 'pom' indica que este é um projeto pai, usado para agrupar outros módulos. Ele não gera um JAR ou WAR. -->
     <packaging>pom</packaging>
 
@@ -39,6 +39,7 @@
         <kotlin.version>1.9.23</kotlin.version>
         <!-- Versão do plugin do compilador do Maven. -->
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
+        <revision>1.0.0-SNAPSHOT</revision>
     </properties>
 
     <!-- Gerenciamento Centralizado de Dependências -->
@@ -70,6 +71,31 @@
                         <source>${java.version}</source>
                         <target>${java.version}</target>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>1.5.0</version>
+                    <configuration>
+                        <updatePomFile>true</updatePomFile>
+                        <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>flatten</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>flatten</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>flatten.clean</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>

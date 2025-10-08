@@ -16,7 +16,7 @@
     <parent>
         <groupId>br.com.phkaiser.bybo</groupId>
         <artifactId>bybo-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <!-- Coordenadas específicas deste módulo. O groupId é herdado do pai. -->

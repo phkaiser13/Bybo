@@ -19,7 +19,7 @@
     <parent>
         <groupId>br.com.phkaiser.bybo</groupId>
         <artifactId>bybo-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <!-- Coordenadas deste módulo específico. -->
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>br.com.phkaiser.bybo</groupId>
             <artifactId>bybo-core</artifactId>
-            <!-- A variável ${project.version} pega a versão definida no nosso POM pai (1.0.0-SNAPSHOT). -->
+            <!-- A variável ${project.version} pega a versão definida no nosso POM pai (1.0.0). -->
             <!-- Isso garante que os módulos sempre dependam da mesma versão uns dos outros. -->
             <version>${project.version}</version>
         </dependency>

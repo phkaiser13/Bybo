@@ -3,7 +3,7 @@
   <parent>
     <artifactId>bybo-parent</artifactId>
     <groupId>br.com.phkaiser.bybo</groupId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${revision}</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>bybo-app</artifactId>
@@ -63,8 +63,9 @@
           </execution>
         </executions>
         <configuration>
+          <skip>${jpackage.skip}</skip>
           <name>ByBo</name>
-          <appVersion>${project.version}</appVersion>
+          <appVersion>${jpackage.app-version}</appVersion>
           <vendor>phkaiser</vendor>
           <destination>target/dist</destination>
           <input>${project.build.directory}</input>
@@ -140,8 +141,10 @@
   </dependencies>
   <properties>
     <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
+    <jpackage.app-version>${project.version}</jpackage.app-version>
     <javafx.version>17.0.10</javafx.version>
     <junit.version>5.10.2</junit.version>
+    <jpackage.skip>false</jpackage.skip>
     <testfx.version>4.0.16-alpha</testfx.version>
   </properties>
 </project>
