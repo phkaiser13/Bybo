@@ -1,0 +1,35 @@
+# .github/workflows/pull-request-analysis.yml
+
+# Nome do workflow
+name: Pull Request Analysis
+
+# Gatilho: Executar em pull requests direcionados para as branches main ou master
+on:
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  # Nome do job
+  build_and_test:
+    # Máquina virtual que executará o job
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Baixa o código do repositório
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # 2. Configura o JDK 17, que é a versão usada no seu projeto
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        # Habilita o cache de dependências do Maven para acelerar builds futuros
+        cache: maven
+
+    # 3. Executa a compilação e os testes com o Maven
+    #    O comando "verify" executa o ciclo de vida completo até a fase de verificação,
+    #    que inclui compilar e rodar todos os testes.
+    - name: Build and run tests with Maven
+      run: mvn -B verify --file pom.xml
