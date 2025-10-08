@@ -57,7 +57,7 @@ public class ByBoGraphicalApp extends Application {
             }
         });
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/br/com/phkaiser/bybo/app/ui/views/MainView.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(ByBoGraphicalApp.class.getResource("/br/com/phkaiser/bybo/app/ui/views/MainView.fxml")));
         Scene scene = new Scene(root, 1024, 768);
         String css = Objects.requireNonNull(getClass().getResource("/br/com/phkaiser/bybo/app/ui/css/styles.css")).toExternalForm();
         scene.getStylesheets().add(css);

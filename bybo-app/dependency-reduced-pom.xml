@@ -12,19 +12,7 @@
   <build>
     <resources>
       <resource>
-        <directory>src/main/java</directory>
-        <includes>
-          <include>**/*.fxml</include>
-          <include>**/*.css</include>
-        </includes>
-      </resource>
-      <resource>
         <directory>src/main/resources</directory>
-        <includes>
-          <include>**/*.fxml</include>
-          <include>**/*.css</include>
-          <include>**/*.png</include>
-        </includes>
       </resource>
     </resources>
     <plugins>
@@ -61,10 +49,99 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.panteleyev</groupId>
+        <artifactId>jpackage-maven-plugin</artifactId>
+        <version>1.7.1</version>
+        <executions>
+          <execution>
+            <id>jpackage</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jpackage</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <name>ByBo</name>
+          <appVersion>${project.version}</appVersion>
+          <vendor>phkaiser</vendor>
+          <destination>target/dist</destination>
+          <input>${project.build.directory}</input>
+          <mainJar>${project.build.finalName}.jar</mainJar>
+          <mainClass>br.com.phkaiser.bybo.app.Launcher</mainClass>
+          <javaOptions>
+            <javaOption>-Dfile.encoding=UTF-8</javaOption>
+          </javaOptions>
+          <icon>src/main/resources/br/com/phkaiser/bybo/app/ui/appicons/ByBo.png</icon>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.10.2</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>opentest4j</artifactId>
+          <groupId>org.opentest4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>junit-platform-commons</artifactId>
+          <groupId>org.junit.platform</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>apiguardian-api</artifactId>
+          <groupId>org.apiguardian</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.10.2</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>junit-platform-engine</artifactId>
+          <groupId>org.junit.platform</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>apiguardian-api</artifactId>
+          <groupId>org.apiguardian</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.testfx</groupId>
+      <artifactId>testfx-junit5</artifactId>
+      <version>4.0.16-alpha</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testfx</groupId>
+      <artifactId>testfx-core</artifactId>
+      <version>4.0.16-alpha</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>hamcrest-core</artifactId>
+          <groupId>org.hamcrest</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>assertj-core</artifactId>
+          <groupId>org.assertj</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
   <properties>
     <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
     <javafx.version>17.0.10</javafx.version>
+    <junit.version>5.10.2</junit.version>
+    <testfx.version>4.0.16-alpha</testfx.version>
   </properties>
 </project>
