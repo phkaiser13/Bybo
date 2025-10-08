@@ -1,0 +1,66 @@
+# Este workflow do GitHub Actions automatiza o processo de release.
+# Ele será acionado sempre que uma nova tag no formato v*.*.* for enviada (push) para o repositório.
+name: Criar Release e Anexar Artefatos
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Aciona o workflow para tags como v1.0.0, v1.2.3, etc.
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest # Executa o job em uma máquina virtual Ubuntu
+
+    steps:
+      # 1. Checkout do código
+      # Baixa o código do repositório para a máquina virtual.
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      # 2. Configurar o JDK 17
+      # Instala e configura o Java 17, que é necessário para compilar o projeto.
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      # 3. Extrair o número da versão da tag
+      # Remove o prefixo 'v' da tag para obter um número de versão limpo (ex: v1.0.0 -> 1.0.0).
+      - name: Extrair número da versão
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+      # 4. Atualizar a versão no POM
+      # Usa o plugin do Maven para atualizar a versão do projeto nos arquivos pom.xml.
+      # Isso garante que a aplicação saiba qual é a sua própria versão quando for executada.
+      - name: Atualizar versão no pom.xml
+        run: mvn versions:set -DnewVersion=${{ env.VERSION }}
+
+      # 5. Compilar e empacotar a aplicação
+      # Executa o `mvn clean install`, que compila o código e usa o maven-shade-plugin
+      # para criar um JAR executável ("uber-jar") com todas as dependências.
+      - name: Compilar e empacotar com Maven
+        run: mvn -B clean install --file pom.xml
+
+      # 6. Criar o arquivo de informações da release
+      # Gera um arquivo JSON simples que a aplicação irá consumir para verificar a versão mais recente.
+      - name: Criar release-info.json
+        run: |
+          echo '{
+            "version": "${{ env.VERSION }}",
+            "url": "https://github.com/${{ github.repository }}/releases/latest"
+          }' > target/release-info.json
+
+      # 7. Criar a Release no GitHub
+      # Usa a action 'softprops/action-gh-release' para criar uma nova release no GitHub.
+      # Anexa o JAR executável e o arquivo release-info.json à release.
+      - name: Criar Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            bybo-app/target/bybo-app-${{ env.VERSION }}.jar
+            target/release-info.json
+          body: "Release automática da versão ${{ env.VERSION }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

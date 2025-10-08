@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.phkaiser.bybo.app.ui.controllers.GenericDataViewController">
+   <children>
+      <BorderPane layoutX="268.0" layoutY="223.0" prefHeight="700.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <VBox prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                     <children>
+                        <Label fx:id="tableNameLabel" text="Nome da Tabela" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font name="System Bold" size="28.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="exportButton" mnemonicParsing="false" text="Exportar para Excel" />
+                     </children>
+                  </HBox>
+                  <TextField fx:id="searchField" promptText="Buscar em todos os campos..." />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </VBox>
+         </top>
+         <center>
+            <TableView fx:id="itemsTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </BorderPane.margin>
+            </TableView>
+         </center>
+         <right>
+            <VBox alignment="TOP_CENTER" prefWidth="300.0" spacing="15.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Detalhes do Item">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <ScrollPane fx:id="formScrollPane" fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+                     <content>
+                        <GridPane fx:id="formGridPane" hgap="10.0" vgap="10.0">
+                           <!-- Campos do formulário serão injetados aqui pelo controller -->
+                        </GridPane>
+                     </content>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </ScrollPane>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Button fx:id="saveButton" mnemonicParsing="false" text="Salvar" />
+                        <Button fx:id="deleteButton" mnemonicParsing="false" text="Deletar" />
+                        <Button fx:id="clearButton" mnemonicParsing="false" text="Limpar" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </VBox>
+         </right>
+      </BorderPane>
+   </children>
+</AnchorPane>
