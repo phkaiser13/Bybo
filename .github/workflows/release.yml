@@ -31,25 +31,26 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y xvfb
 
-      - name: Build and Test (without packaging)
+      - name: Build and Test all modules
         uses: GabrielBB/xvfb-action@v1
         with:
-          # Adicionamos -Djpackage.skip=true para apenas compilar e testar, sem gerar o instalador ainda.
+          # Apenas compila e testa todos os módulos, pulando o jpackage por enquanto.
           run: mvn -B verify -Djpackage.skip=true --file pom.xml
 
       - name: Package Windows MSI
         if: runner.os == 'Windows'
         run: |
-          # Usamos -pl bybo-app para dizer ao Maven para rodar o comando no módulo correto.
-          mvn -pl bybo-app jpackage:jpackage \
+          # Executa a fase 'package' apenas no módulo 'bybo-app'.
+          # Isso acionará o jpackage-maven-plugin como configurado no pom.xml.
+          mvn -B -pl bybo-app package \
             -DappVersion=${GITHUB_REF_NAME} \
             -DinstallerType=msi
 
       - name: Package macOS DMG
         if: runner.os == 'macOS'
         run: |
-          # O mesmo ajuste é feito aqui para o macOS.
-          mvn -pl bybo-app jpackage:jpackage \
+          # O mesmo para o macOS.
+          mvn -B -pl bybo-app package \
             -DappVersion=${GITHUB_REF_NAME} \
             -DinstallerType=dmg
 
@@ -61,22 +62,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Assets to Release
+      - name: Upload Assets to Release (Windows)
         if: runner.os == 'Windows'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-          files: bybo-app/target/dist/*.msi # O caminho do artefato é dentro do módulo
+          files: bybo-app/target/dist/*.msi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Upload Assets to Release
+      - name: Upload Assets to Release (macOS)
         if: runner.os == 'macOS'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-          files: bybo-app/target/dist/*.dmg # O caminho do artefato é dentro do módulo
+          files: bybo-app/target/dist/*.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
