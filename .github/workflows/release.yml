@@ -5,7 +5,7 @@ name: Create Release
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
 
 jobs:
   build:
@@ -41,15 +41,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y xvfb
 
-      - name: Build and Test all modules (Linux)
+      - name: Build and Install all modules (Linux)
         if: runner.os == 'Linux'
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: mvn -B verify -Djpackage.skip=true --file pom.xml
+          run: mvn -B install -Djpackage.skip=true --file pom.xml
       
-      - name: Build and Test all modules (Windows/macOS)
+      - name: Build and Install all modules (Windows/macOS)
         if: runner.os != 'Linux'
-        run: mvn -B verify -Djpackage.skip=true --file pom.xml
+        run: mvn -B install -Djpackage.skip=true --file pom.xml
 
       - name: Package Application (Linux)
         if: runner.os == 'Linux'
