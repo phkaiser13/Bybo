@@ -31,22 +31,25 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y xvfb
 
-      - name: Build with Maven
+      - name: Build and Test (without packaging)
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: mvn -B verify --file pom.xml
+          # Adicionamos -Djpackage.skip=true para apenas compilar e testar, sem gerar o instalador ainda.
+          run: mvn -B verify -Djpackage.skip=true --file pom.xml
 
       - name: Package Windows MSI
         if: runner.os == 'Windows'
         run: |
-          mvn jpackage:jpackage \
+          # Usamos -pl bybo-app para dizer ao Maven para rodar o comando no módulo correto.
+          mvn -pl bybo-app jpackage:jpackage \
             -DappVersion=${GITHUB_REF_NAME} \
             -DinstallerType=msi
 
       - name: Package macOS DMG
         if: runner.os == 'macOS'
         run: |
-          mvn jpackage:jpackage \
+          # O mesmo ajuste é feito aqui para o macOS.
+          mvn -pl bybo-app jpackage:jpackage \
             -DappVersion=${GITHUB_REF_NAME} \
             -DinstallerType=dmg
 
@@ -64,6 +67,16 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-          files: target/*.msi
+          files: bybo-app/target/dist/*.msi # O caminho do artefato é dentro do módulo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Upload Assets to Release
+        if: runner.os == 'macOS'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          files: bybo-app/target/dist/*.dmg # O caminho do artefato é dentro do módulo
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
