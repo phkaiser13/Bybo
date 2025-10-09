@@ -5,14 +5,27 @@ name: Create Release
 on:
   push:
     tags:
-      - '*' # Aciona para qualquer tag, sem o 'v'
+      - '*'
 
 jobs:
-  build-and-release:
+  build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
+        include:
+          - os: windows-latest
+            artifact_name: bybo-windows
+            installer_type: msi
+            file_extension: msi
+          - os: macos-latest
+            artifact_name: bybo-macos
+            installer_type: dmg
+            file_extension: dmg
+          - os: ubuntu-latest
+            artifact_name: bybo-linux
+            installer_type: deb
+            file_extension: deb
 
     steps:
       - name: Checkout repository
@@ -34,50 +47,39 @@ jobs:
       - name: Build and Test all modules
         uses: GabrielBB/xvfb-action@v1
         with:
-          # Apenas compila e testa todos os módulos, pulando o jpackage por enquanto.
           run: mvn -B verify -Djpackage.skip=true --file pom.xml
 
-      - name: Package Windows MSI
-        if: runner.os == 'Windows'
-        run: |
-          # Executa a fase 'package' apenas no módulo 'bybo-app'.
-          # Isso acionará o jpackage-maven-plugin como configurado no pom.xml.
-          mvn -B -pl bybo-app package \
-            -DappVersion=${GITHUB_REF_NAME} \
-            -DinstallerType=msi
+      - name: Package Application
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: |
+            mvn -B -pl bybo-app package \
+              -DappVersion=${GITHUB_REF_NAME} \
+              -DinstallerType=${{ matrix.installer_type }}
+      
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: bybo-app/target/dist/*.${{ matrix.file_extension }}
 
-      - name: Package macOS DMG
-        if: runner.os == 'macOS'
-        run: |
-          # O mesmo para o macOS.
-          mvn -B -pl bybo-app package \
-            -DappVersion=${GITHUB_REF_NAME} \
-            -DinstallerType=dmg
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+      
+      - name: List downloaded files
+        run: ls -R dist
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Assets to Release (Windows)
-        if: runner.os == 'Windows'
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
-          files: bybo-app/target/dist/*.msi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Upload Assets to Release (macOS)
-        if: runner.os == 'macOS'
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
-          files: bybo-app/target/dist/*.dmg
+          files: dist/*/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

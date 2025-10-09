@@ -156,6 +156,7 @@
 					<input>${project.build.directory}</input>
 					<mainJar>${project.build.finalName}.jar</mainJar>
 					<mainClass>br.com.phkaiser.bybo.app.Launcher</mainClass>
+					<type>${installerType}</type>
 					<javaOptions>
 						<javaOption>-Dfile.encoding=UTF-8</javaOption>
 					</javaOptions>
@@ -164,25 +165,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<profiles>
-		<profile>
-			<id>windows</id>
-			<activation>
-				<os>
-					<family>windows</family>
-				</os>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.panteleyev</groupId>
-						<artifactId>jpackage-maven-plugin</artifactId>
-						<configuration>
-							<type>MSI</type>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>
