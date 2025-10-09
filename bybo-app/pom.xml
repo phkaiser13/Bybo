@@ -94,46 +94,55 @@
 	</dependencies>
 
 	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-		</resources>
 		<plugins>
+			<!-- Plugin do JavaFX para facilitar a execução via Maven (mvn javafx:run) -->
 			<plugin>
 				<groupId>org.openjfx</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
 				<version>${javafx.maven.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>default-cli</id>
-						<configuration>
-							<mainClass>br.com.phkaiser.bybo.app.Launcher</mainClass>
-						</configuration>
-					</execution>
-				</executions>
+				<configuration>
+					<!-- O Launcher é necessário para contornar problemas de classpath com JavaFX em JARs não modulares -->
+					<mainClass>br.com.phkaiser.bybo.app.Launcher</mainClass>
+				</configuration>
 			</plugin>
+
+			<!-- Copia todas as dependências de runtime para a pasta 'target/dependencies' -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.4</version>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.6.1</version>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
 						<goals>
-							<goal>shade</goal>
+							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>br.com.phkaiser.bybo.app.Launcher</mainClass>
-								</transformer>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-							</transformers>
+							<outputDirectory>${project.build.directory}/dependencies</outputDirectory>
+							<includeScope>runtime</includeScope>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- Configura o MANIFEST.MF para que o JAR seja executável com 'java -jar' -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.3.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>dependencies/</classpathPrefix>
+							<mainClass>br.com.phkaiser.bybo.app.Launcher</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<!-- Cria instaladores nativos (.msi, .dmg, .deb) -->
 			<plugin>
 				<groupId>org.panteleyev</groupId>
 				<artifactId>jpackage-maven-plugin</artifactId>
@@ -155,7 +164,16 @@
 					<destination>target/dist</destination>
 					<input>${project.build.directory}</input>
 					<mainJar>${project.build.finalName}.jar</mainJar>
-					<mainClass>br.com.phkaiser.bybo.app.Launcher</mainClass>
+					<!-- jpackage precisa da classe real do Application, não do launcher -->
+					<mainClass>br.com.phkaiser.bybo.app.ByBoGraphicalApp</mainClass>
+					<modulePaths>
+						<path>${project.build.directory}/dependencies</path>
+					</modulePaths>
+					<!-- Inclui os módulos JavaFX no runtime image -->
+					<addModules>
+						<addModule>javafx.controls</addModule>
+						<addModule>javafx.fxml</addModule>
+					</addModules>
 					<type>${installerType}</type>
 					<javaOptions>
 						<javaOption>-Dfile.encoding=UTF-8</javaOption>
