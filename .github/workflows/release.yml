@@ -5,7 +5,7 @@ name: Create Release
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
 
 jobs:
   build:
@@ -15,15 +15,12 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
         include:
           - os: windows-latest
-            artifact_name: bybo-windows
             installer_type: msi
             file_extension: msi
           - os: macos-latest
-            artifact_name: bybo-macos
             installer_type: dmg
             file_extension: dmg
           - os: ubuntu-latest
-            artifact_name: bybo-linux
             installer_type: deb
             file_extension: deb
 
@@ -44,23 +41,30 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y xvfb
 
-      - name: Build and Test all modules
+      - name: Build and Test all modules (Linux)
+        if: runner.os == 'Linux'
         uses: GabrielBB/xvfb-action@v1
         with:
           run: mvn -B verify -Djpackage.skip=true --file pom.xml
+      
+      - name: Build and Test all modules (Windows/macOS)
+        if: runner.os != 'Linux'
+        run: mvn -B verify -Djpackage.skip=true --file pom.xml
 
-      - name: Package Application
+      - name: Package Application (Linux)
+        if: runner.os == 'Linux'
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: |
-            mvn -B -pl bybo-app package \
-              -DappVersion=${GITHUB_REF_NAME} \
-              -DinstallerType=${{ matrix.installer_type }}
+          run: mvn -B -pl bybo-app package -DappVersion=${GITHUB_REF_NAME} -DinstallerType=${{ matrix.installer_type }}
+
+      - name: Package Application (Windows/macOS)
+        if: runner.os != 'Linux'
+        run: mvn -B -pl bybo-app package -DappVersion=${GITHUB_REF_NAME} -DinstallerType=${{ matrix.installer_type }}
       
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact_name }}
+          name: bybo-${{ runner.os }}
           path: bybo-app/target/dist/*.${{ matrix.file_extension }}
 
   release:
