@@ -1,0 +1,94 @@
+name: Create and Publish Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-release:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            artifact_name: ByBo-Linux
+            asset_name: bybo_${{ github.ref_name }}_amd64.deb
+            asset_type: application/vnd.debian.binary-package
+          - os: windows-latest
+            artifact_name: ByBo-Windows
+            asset_name: ByBo-${{ github.ref_name }}.msi
+            asset_type: application/x-msi
+          - os: macos-latest
+            artifact_name: ByBo-macOS
+            asset_name: ByBo-${{ github.ref_name }}.dmg
+            asset_type: application/x-apple-diskimage
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: mvn -B clean package -Drevision=${{ github.ref_name }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: bybo-app/target/dist/*
+
+  publish-release:
+    name: Publish GitHub Release
+    needs: build-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          name: Release ${{ github.ref_name }}
+          body: "Release of version ${{ github.ref_name }}"
+          draft: false
+          prerelease: false
+
+      - name: Upload Linux Artifact
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/ByBo-Linux/bybo_${{ github.ref_name }}_amd64.deb
+          asset_name: bybo_${{ github.ref_name }}_amd64.deb
+          asset_content_type: application/vnd.debian.binary-package
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/ByBo-Windows/ByBo-${{ github.ref_name }}.msi
+          asset_name: ByBo-${{ github.ref_name }}.msi
+          asset_content_type: application/x-msi
+
+      - name: Upload macOS Artifact
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/ByBo-macOS/ByBo-${{ github.ref_name }}.dmg
+          asset_name: ByBo-${{ github.ref_name }}.dmg
+          asset_content_type: application/x-apple-diskimage
