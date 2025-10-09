@@ -1,33 +1,21 @@
-name: Create and Publish Release
+# .github/workflows/release.yml
+
+name: Create Release
 
 on:
   push:
     tags:
-      - '*'
+      - '*' # Aciona para qualquer tag, sem o 'v'
 
 jobs:
-  build-release:
-    name: Build on ${{ matrix.os }}
+  build-and-release:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        include:
-          - os: ubuntu-latest
-            artifact_name: ByBo-Linux
-            asset_name: bybo_${{ github.ref_name }}_amd64.deb
-            asset_type: application/vnd.debian.binary-package
-          - os: windows-latest
-            artifact_name: ByBo-Windows
-            asset_name: ByBo-${{ github.ref_name }}.msi
-            asset_type: application/x-msi
-          - os: macos-latest
-            artifact_name: ByBo-macOS
-            asset_name: ByBo-${{ github.ref_name }}.dmg
-            asset_type: application/x-apple-diskimage
+        os: [windows-latest, ubuntu-latest, macos-latest]
 
     steps:
-      - name: Check out code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
@@ -37,58 +25,45 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      - name: Set up virtual framebuffer on Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+
       - name: Build with Maven
-        run: mvn -B clean package -Drevision=${{ github.ref_name }}
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: GabrielBB/xvfb-action@v1
         with:
-          name: ${{ matrix.artifact_name }}
-          path: bybo-app/target/dist/*
+          run: mvn -B verify --file pom.xml
 
-  publish-release:
-    name: Publish GitHub Release
-    needs: build-release
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+      - name: Package Windows MSI
+        if: runner.os == 'Windows'
+        run: |
+          mvn jpackage:jpackage \
+            -DappVersion=${GITHUB_REF_NAME} \
+            -DinstallerType=msi
 
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: dist
+      - name: Package macOS DMG
+        if: runner.os == 'macOS'
+        run: |
+          mvn jpackage:jpackage \
+            -DappVersion=${GITHUB_REF_NAME} \
+            -DinstallerType=dmg
 
-      - name: Create Release
-        id: create_release
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
+          tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-          body: "Release of version ${{ github.ref_name }}"
-          draft: false
-          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Linux Artifact
-        uses: actions/upload-release-asset@v1
+      - name: Upload Assets to Release
+        if: runner.os == 'Windows'
+        uses: softprops/action-gh-release@v1
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/ByBo-Linux/bybo_${{ github.ref_name }}_amd64.deb
-          asset_name: bybo_${{ github.ref_name }}_amd64.deb
-          asset_content_type: application/vnd.debian.binary-package
-
-      - name: Upload Windows Artifact
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/ByBo-Windows/ByBo-${{ github.ref_name }}.msi
-          asset_name: ByBo-${{ github.ref_name }}.msi
-          asset_content_type: application/x-msi
-
-      - name: Upload macOS Artifact
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/ByBo-macOS/ByBo-${{ github.ref_name }}.dmg
-          asset_name: ByBo-${{ github.ref_name }}.dmg
-          asset_content_type: application/x-apple-diskimage
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          files: target/*.msi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
