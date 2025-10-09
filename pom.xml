@@ -39,7 +39,7 @@
         <kotlin.version>1.9.23</kotlin.version>
         <!-- Versão do plugin do compilador do Maven. -->
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
-        <revision>1.0.0-SNAPSHOT</revision>
+        <revision>1.0.0</revision>
     </properties>
 
     <!-- Gerenciamento Centralizado de Dependências -->
